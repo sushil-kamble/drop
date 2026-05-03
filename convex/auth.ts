@@ -57,12 +57,14 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
       minPasswordLength: 8,
       revokeSessionsOnPasswordReset: true,
       sendResetPassword: async ({ user, url }) => {
-        void sendPasswordResetEmail({
-          to: user.email,
-          resetUrl: url,
-        }).catch((error: unknown) => {
+        try {
+          await sendPasswordResetEmail({
+            to: user.email,
+            resetUrl: url,
+          })
+        } catch (error: unknown) {
           console.error("Could not send password reset email", error)
-        })
+        }
       },
     },
     plugins: [convex({ authConfig })],

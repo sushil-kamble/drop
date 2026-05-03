@@ -53,14 +53,19 @@ function PublicPage() {
             <p className="font-medium text-foreground">
               You are sending this anonymously to {page.ownerDisplayName}.
             </p>
-            <p>No name or email required. Only this page owner can see it.</p>
+            <p>{page.trustStatement}</p>
           </div>
 
           <Card className="border border-foreground/10 bg-background/82">
             <CardHeader>
-              <CardTitle className="font-heading text-3xl">
-                {step === "form" ? "What do you want to send?" : "Dropped."}
+              <CardTitle className="font-heading text-3xl sm:text-4xl">
+                {step === "form" ? page.title : "Dropped."}
               </CardTitle>
+              {step === "form" ? (
+                <p className="max-w-3xl text-sm leading-6 text-foreground/72">
+                  {page.intro}
+                </p>
+              ) : null}
             </CardHeader>
             <CardContent className="flex flex-col gap-5">
               {step === "form" ? (
@@ -98,7 +103,7 @@ function PublicPage() {
                   }}
                 >
                   <FieldBlock
-                    label="What do you want to send?"
+                    label="Your answer"
                     hint="A short message is enough. You do not need to phrase it perfectly."
                   >
                     <Textarea
@@ -134,8 +139,7 @@ function PublicPage() {
                   </FieldBlock>
 
                   <p className="text-xs text-muted-foreground">
-                    No name or email is required. Only this page owner can see
-                    what you send.
+                    {page.trustStatement}
                   </p>
 
                   {error ? (
@@ -185,7 +189,7 @@ function PublicPage() {
             <CardContent>
               <ul className="grid gap-2 text-sm leading-6 text-foreground/72">
                 <li className="border border-foreground/10 bg-background/50 px-3 py-2">
-                  No public feed.
+                  {page.trustStatement}
                 </li>
                 <li className="border border-foreground/10 bg-background/50 px-3 py-2">
                   No account required.
@@ -206,9 +210,7 @@ function PublicPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-sm leading-7 text-foreground/72">
-              Drop is a simple private inbox. If there is something you want
-              this person to receive without making it public, this is the place
-              for it.
+              {page.intro}
             </CardContent>
           </Card>
         </aside>
