@@ -264,6 +264,48 @@ export function FieldBlock({
   )
 }
 
+export function SiteFooter() {
+  return (
+    <footer className="border-t border-foreground/8">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <p className="text-xs text-muted-foreground">
+          Drop &middot;{" "}
+          <a
+            href="https://github.com/sushil-kamble/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            Sushil
+          </a>{" "}
+          &middot;{" "}
+          <a
+            href="https://www.1cc.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            1cc.in
+          </a>
+        </p>
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <Link to="/about" className="transition-colors hover:text-foreground">
+            About
+          </Link>
+          <a
+            href="https://github.com/sushil-kamble/drop"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            GitHub
+          </a>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
 export function FloatingNotice({ message }: { message: string | null }) {
   return (
     <div

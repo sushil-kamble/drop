@@ -8,6 +8,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 import appCss from "../styles.css?url"
 import AppConvexProvider from "@/integrations/convex/provider"
+import { SiteFooter } from "@/components/site/layout"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -35,7 +36,8 @@ export const Route = createRootRoute({
       },
       {
         rel: "icon",
-        href: "/favicon.ico",
+        type: "image/svg+xml",
+        href: "/favicon.svg",
       },
       {
         rel: "manifest",
@@ -65,6 +67,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body suppressHydrationWarning>
         <AppConvexProvider>
           {children}
+          <SiteFooter />
           {showDevtools ? (
             <TanStackDevtools
               config={{

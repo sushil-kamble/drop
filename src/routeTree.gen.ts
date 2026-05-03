@@ -17,6 +17,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DropsRouteImport } from './routes/drops'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DropsIndexRouteImport } from './routes/drops.index'
@@ -66,6 +67,11 @@ const DropsRoute = DropsRouteImport.update({
   path: '/drops',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SlugRoute = SlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -110,6 +116,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/about': typeof AboutRoute
   '/drops': typeof DropsRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/inbox': typeof InboxRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/about': typeof AboutRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/inbox': typeof InboxRoute
   '/login': typeof LoginRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/about': typeof AboutRoute
   '/drops': typeof DropsRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/inbox': typeof InboxRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$slug'
+    | '/about'
     | '/drops'
     | '/forgot-password'
     | '/inbox'
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$slug'
+    | '/about'
     | '/forgot-password'
     | '/inbox'
     | '/login'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$slug'
+    | '/about'
     | '/drops'
     | '/forgot-password'
     | '/inbox'
@@ -220,6 +232,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SlugRoute: typeof SlugRoute
+  AboutRoute: typeof AboutRoute
   DropsRoute: typeof DropsRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   InboxRoute: typeof InboxRoute
@@ -288,6 +301,13 @@ declare module '@tanstack/react-router' {
       path: '/drops'
       fullPath: '/drops'
       preLoaderRoute: typeof DropsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$slug': {
@@ -368,6 +388,7 @@ const DropsRouteWithChildren = DropsRoute._addFileChildren(DropsRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SlugRoute: SlugRoute,
+  AboutRoute: AboutRoute,
   DropsRoute: DropsRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   InboxRoute: InboxRoute,
