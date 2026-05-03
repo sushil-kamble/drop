@@ -2,7 +2,7 @@
 
 ## Project
 
-Drop is a TanStack Start + React app backed by Convex and deployed to Cloudflare Workers at:
+Drop is a TanStack Start + React app backed by Convex and deployed to Cloudflare Workers.
 
 - Production app: `https://drop.1cc.in`
 - Production Convex: `https://admired-hornet-946.convex.cloud`
@@ -33,7 +33,7 @@ Drop is a TanStack Start + React app backed by Convex and deployed to Cloudflare
 pnpm dev
 ```
 
-This runs Convex dev and Vite client together.
+Runs Convex dev and Vite client together. Vite reads `.env` + `.env.local` (dev URLs).
 
 Useful checks:
 
@@ -46,19 +46,18 @@ pnpm typecheck
 
 Run at least `pnpm lint` before committing. Run `pnpm build` before deploy-related changes.
 
-## Environment notes
+## Environment
 
-Local `.env` / `.env.local` are intentionally gitignored. Do not commit secrets.
+Three layers, each separate:
 
-Important env vars:
+1. **Vite build-time (`.env*` files)** — `VITE_*` vars are inlined into the client/SSR bundle.
+   - `.env` / `.env.local` → dev (gitignored)
+   - `.env.production` → prod (committed; URLs only, no secrets)
+   - `vite build` defaults to `mode=production` and auto-loads `.env.production`. Mode-specific files override `.env.local`.
+2. **Cloudflare Worker runtime** — no app vars required. `siteUrl()` falls through to the inlined `VITE_SITE_URL`; `convexUrl()` / `convexSiteUrl()` use inlined values.
+3. **Convex deployment env** — set per-deployment via `convex env set`. Includes `BETTER_AUTH_SECRET`, `RESEND_API_KEY`, and `SITE_URL` (used by `convex/auth.ts` for password reset links).
 
-- `VITE_SITE_URL` / `SITE_URL`
-- `VITE_CONVEX_URL`
-- `VITE_CONVEX_SITE_URL`
-- `BETTER_AUTH_SECRET` in Convex env
-- `RESEND_API_KEY` in Convex env
-
-`RESEND_FROM_EMAIL` should normally be unset. The app falls back to Resend's default sender (`Drop <onboarding@resend.dev>`). Only set it if a verified custom sender is desired.
+`RESEND_FROM_EMAIL` should normally be unset. The app falls back to Resend's default sender (`Drop <onboarding@resend.dev>`). Only set if a verified custom sender is desired.
 
 Check Convex env:
 
@@ -78,20 +77,11 @@ pnpm exec convex env remove --prod RESEND_FROM_EMAIL
 
 Production deploy target is **drop.1cc.in**, not the `workers.dev` URL.
 
-Use:
-
 ```bash
 pnpm deploy:prod
 ```
 
-This script:
-
-1. Builds with production URLs:
-   - `VITE_SITE_URL=https://drop.1cc.in`
-   - `SITE_URL=https://drop.1cc.in`
-   - `VITE_CONVEX_URL=https://admired-hornet-946.convex.cloud`
-   - `VITE_CONVEX_SITE_URL=https://admired-hornet-946.convex.site`
-2. Deploys the generated Cloudflare Worker/Assets to the custom domain `drop.1cc.in`.
+This runs `pnpm build && wrangler --cwd .output deploy --domain drop.1cc.in`. Build-time URLs come from `.env.production` (auto-loaded by Vite in production mode); no runtime `--var` flags are needed because `VITE_*` vars are inlined.
 
 For Convex function changes, deploy prod Convex explicitly:
 
@@ -112,7 +102,7 @@ curl -I https://drop.1cc.in
 - Do not commit unless the user asks.
 - If committing, keep messages short and imperative.
 - Push only when requested.
-- Never commit `.env`, `.env.local`, `.output`, `.wrangler`, or generated deployment artifacts.
+- Never commit `.env`, `.env.local`, `.output`, `.wrangler`, or generated deployment artifacts. `.env.production` *is* committed (URLs only, no secrets).
 
 ## Implementation notes
 
