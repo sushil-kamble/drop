@@ -16,23 +16,6 @@ export const Route = createFileRoute("/api/drops")({
             [body.slug, ip, request.headers.get("user-agent") ?? "unknown"].join("|")
           )
 
-          const rateLimit = await client.mutation(api.submissions.bumpRateLimit, {
-            key: fingerprint,
-            kind: "submit",
-            max: 5,
-            windowMs: 15 * 60 * 1000,
-          })
-
-          if (!rateLimit.allowed) {
-            return Response.json(
-              {
-                error:
-                  "You’ve submitted a few already. Please wait a little before sending another drop.",
-              },
-              { status: 429 }
-            )
-          }
-
           const result = await client.mutation(api.submissions.submitPublicDrop, {
             slug: body.slug,
             message: body.message,

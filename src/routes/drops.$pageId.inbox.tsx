@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useMutation, useQuery } from "convex/react"
+import { useQuery } from "convex/react"
 import { ArrowLeft, ArrowSquareOut, LinkSimple } from "@phosphor-icons/react"
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { api } from "../../convex/_generated/api"
@@ -25,27 +25,13 @@ export const Route = createFileRoute("/drops/$pageId/inbox")({
 function PageInbox() {
   const { pageId } = Route.useParams()
   const data = useQuery(api.builders.getPageInbox, { pageId } as any)
-  const markVisited = useMutation(api.builders.recordPageInboxVisit)
   const [selectedId, setSelectedId] = React.useState<string | null>(null)
   const [mobileShowDetail, setMobileShowDetail] = React.useState(false)
-  const visitedPageIdRef = React.useRef<string | null>(null)
   const shareUrl = data ? buildShareUrl(siteUrl(), data.page.slug) : ""
   const selected = data
     ? data.submissions.find((submission) => submission._id === selectedId) ||
       data.submissions[0]
     : null
-
-  const loadedPageId = data?.page._id ?? null
-  React.useEffect(() => {
-    if (!loadedPageId) {
-      return
-    }
-    if (visitedPageIdRef.current === loadedPageId) {
-      return
-    }
-    visitedPageIdRef.current = loadedPageId
-    void markVisited({ pageId: loadedPageId } as any)
-  }, [loadedPageId, markVisited])
 
   React.useEffect(() => {
     if (!data) {

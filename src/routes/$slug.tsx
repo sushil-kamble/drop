@@ -1,6 +1,6 @@
 import * as React from "react"
-import { useMutation, useQuery } from "convex/react"
-import { LockSimple, ShieldCheck } from "@phosphor-icons/react"
+import { useQuery } from "convex/react"
+import { ShieldCheck } from "@phosphor-icons/react"
 import { createFileRoute } from "@tanstack/react-router"
 import { api } from "../../convex/_generated/api"
 import { Button } from "@/components/ui/button"
@@ -17,24 +17,11 @@ export const Route = createFileRoute("/$slug")({
 function PublicPage() {
   const { slug } = Route.useParams()
   const page = useQuery(api.builders.getPublicPage, { slug })
-  const trackPublicEvent = useMutation(api.telemetry.recordPublicEvent)
   const [step, setStep] = React.useState<"form" | "done">("form")
   const [message, setMessage] = React.useState("")
   const [details, setDetails] = React.useState("")
   const [error, setError] = React.useState("")
   const [isPending, startTransition] = React.useTransition()
-  const startedTracking = React.useRef(false)
-
-  React.useEffect(() => {
-    if (!page) {
-      return
-    }
-
-    void trackPublicEvent({
-      slug: page.slug,
-      kind: "public_page_view",
-    })
-  }, [page, trackPublicEvent])
 
   if (page === undefined) {
     return <PublicPageSkeleton />
@@ -110,17 +97,6 @@ function PublicPage() {
                       required
                       rows={5}
                       value={message}
-                      onFocus={() => {
-                        if (startedTracking.current) {
-                          return
-                        }
-
-                        startedTracking.current = true
-                        void trackPublicEvent({
-                          slug: page.slug,
-                          kind: "submission_started",
-                        })
-                      }}
                       onChange={(event) => setMessage(event.target.value)}
                       placeholder="Example: I meant to tell you this earlier, but the signup flow was confusing on mobile."
                     />
@@ -202,17 +178,6 @@ function PublicPage() {
             </CardContent>
           </Card>
 
-          <Card className="border border-foreground/10 bg-foreground/3">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <LockSimple className="size-5" />
-                Why this exists
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm leading-7 text-foreground/72">
-              {page.intro}
-            </CardContent>
-          </Card>
         </aside>
       </PageFrame>
     </div>

@@ -13,7 +13,6 @@ import type * as builders from "../builders.js";
 import type * as email from "../email.js";
 import type * as http from "../http.js";
 import type * as submissions from "../submissions.js";
-import type * as telemetry from "../telemetry.js";
 
 import type {
   ApiFromModules,
@@ -27,7 +26,6 @@ declare const fullApi: ApiFromModules<{
   email: typeof email;
   http: typeof http;
   submissions: typeof submissions;
-  telemetry: typeof telemetry;
 }>;
 
 /**

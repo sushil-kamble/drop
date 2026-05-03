@@ -47,12 +47,6 @@ async function generateUniqueSlug(ctx: any) {
   throw new Error("Could not generate a page link right now")
 }
 
-function normalizeSubmissionState(
-  state: "new" | "saved" | "in_progress" | "building" | "archived"
-) {
-  return state === "building" ? "in_progress" : state
-}
-
 async function requireViewer(ctx: any) {
   return authComponent.getAuthUser(ctx)
 }
@@ -66,23 +60,6 @@ async function requireOwnedPage(ctx: any, pageId: string) {
   }
 
   return { page, viewer }
-}
-
-async function insertEvent(
-  ctx: any,
-  event: {
-    kind: string
-    builderId?: string
-    submissionId?: string
-    slug?: string
-    state?: "new" | "saved" | "in_progress" | "building" | "archived"
-    source?: string
-  }
-) {
-  await ctx.db.insert("drop_events", {
-    ...event,
-    occurredAt: Date.now(),
-  })
 }
 
 async function buildPageSummary(ctx: any, page: any) {
@@ -109,7 +86,6 @@ async function buildPageSummary(ctx: any, page: any) {
         _id: submission._id,
         problem: submission.problem,
         submittedAt: submission.submittedAt,
-        state: normalizeSubmissionState(submission.state),
       })),
   }
 }
@@ -143,12 +119,9 @@ export const getPageInbox = query({
       .order("desc")
       .collect()
 
-    const visibleSubmissions = submissions
-      .filter((submission) => submission.visibility === "visible")
-      .map((submission) => ({
-        ...submission,
-        state: normalizeSubmissionState(submission.state),
-      }))
+    const visibleSubmissions = submissions.filter(
+      (submission) => submission.visibility === "visible"
+    )
 
     return {
       page,
@@ -216,12 +189,6 @@ export const createPage = mutation({
       updatedAt: now,
     })
 
-    await insertEvent(ctx, {
-      kind: "page_created",
-      builderId: pageId,
-      slug,
-    })
-
     const createdPage = await ctx.db.get(pageId)
     if (!createdPage) {
       throw new Error("Could not create this page")
@@ -256,12 +223,6 @@ export const updatePage = mutation({
       updatedAt: now,
     })
 
-    await insertEvent(ctx, {
-      kind: "page_updated",
-      builderId: page._id,
-      slug,
-    })
-
     const updatedPage = await ctx.db.get(page._id)
     if (!updatedPage) {
       throw new Error("Could not update this page")
@@ -271,19 +232,3 @@ export const updatePage = mutation({
   },
 })
 
-export const recordPageInboxVisit = mutation({
-  args: {
-    pageId: v.id("drop_builders"),
-  },
-  handler: async (ctx, args) => {
-    const { page } = await requireOwnedPage(ctx, args.pageId)
-    const now = Date.now()
-    await ctx.db.patch(page._id, { lastInboxViewedAt: now, updatedAt: now })
-    await insertEvent(ctx, {
-      kind: "page_inbox_viewed",
-      builderId: page._id,
-      slug: page.slug,
-    })
-    return { ok: true }
-  },
-})
