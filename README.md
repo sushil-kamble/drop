@@ -1,5 +1,7 @@
 # Drop
 
+![Drop anonymous feedback inbox](docs/assets/drop-readme-hero.png)
+
 **A private inbox for the feedback people won't say out loud.**
 
 Drop gives you a dedicated page where anyone can send you an anonymous note, question, complaint, or request — no account required, no public thread, no performative tone. You get the unfiltered signal. They get to be honest.
