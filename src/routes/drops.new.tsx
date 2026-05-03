@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useMutation } from "convex/react"
-import { Link, createFileRoute, useRouter } from "@tanstack/react-router"
+import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { api } from "../../convex/_generated/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -25,13 +25,7 @@ function NewDropPage() {
 
   return (
     <div className="min-h-svh">
-      <SiteHeader
-        rightSlot={
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/drops">All pages</Link>
-          </Button>
-        }
-      />
+      <SiteHeader />
       <PageFrame className="pt-6 sm:pt-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,28rem)]">
           <Card className="border border-foreground/10 bg-background/84">

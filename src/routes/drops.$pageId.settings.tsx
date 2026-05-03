@@ -1,11 +1,6 @@
 import * as React from "react"
 import { useMutation, useQuery } from "convex/react"
-import {
-  ArrowSquareOut,
-  SignOut,
-  SquaresFour,
-  Tray,
-} from "@phosphor-icons/react"
+import { ArrowSquareOut, Tray } from "@phosphor-icons/react"
 import { Link, createFileRoute } from "@tanstack/react-router"
 import { api } from "../../convex/_generated/api"
 import { Button } from "@/components/ui/button"
@@ -13,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { FieldBlock, PageFrame, SiteHeader } from "@/components/site/layout"
-import { authClient } from "@/lib/auth-client"
 import { buildShareUrl } from "@/lib/product"
 import { siteUrl } from "@/lib/env"
 
@@ -22,7 +16,6 @@ export const Route = createFileRoute("/drops/$pageId/settings")({
 })
 
 function PageSettings() {
-  const router = Route.useNavigate()
   const { pageId } = Route.useParams()
   const page = useQuery(api.builders.getPageSettings, { pageId } as any)
   const savePage = useMutation(api.builders.updatePage)
@@ -71,31 +64,12 @@ function PageSettings() {
     <div className="min-h-svh">
       <SiteHeader
         rightSlot={
-          <>
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/drops">
-                <SquaresFour data-icon="inline-start" />
-                All pages
-              </Link>
-            </Button>
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/drops/$pageId/inbox" params={{ pageId: page._id }}>
-                <Tray data-icon="inline-start" />
-                Inbox
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={async () => {
-                await authClient.signOut()
-                await router({ to: "/", replace: true })
-              }}
-            >
-              <SignOut data-icon="inline-start" />
-              Sign out
-            </Button>
-          </>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/drops/$pageId/inbox" params={{ pageId: page._id }}>
+              <Tray data-icon="inline-start" />
+              Inbox
+            </Link>
+          </Button>
         }
       />
 
