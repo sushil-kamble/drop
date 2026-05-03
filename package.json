@@ -7,6 +7,8 @@
     "dev:server": "convex dev",
     "dev:client": "vite dev --port 3001 --strictPort",
     "build": "vite build",
+    "build:prod": "VITE_SITE_URL=https://drop.1cc.in SITE_URL=https://drop.1cc.in VITE_CONVEX_URL=https://admired-hornet-946.convex.cloud VITE_CONVEX_SITE_URL=https://admired-hornet-946.convex.site vite build",
+    "deploy:prod": "pnpm build:prod && wrangler --cwd .output deploy --domain drop.1cc.in --var VITE_SITE_URL:https://drop.1cc.in --var SITE_URL:https://drop.1cc.in --var VITE_CONVEX_URL:https://admired-hornet-946.convex.cloud --var VITE_CONVEX_SITE_URL:https://admired-hornet-946.convex.site",
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint",
