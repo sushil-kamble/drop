@@ -48,7 +48,7 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-foreground/8 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/75",
+        "sticky top-0 z-50 border-b border-foreground/8 bg-background/85 backdrop-blur supports-backdrop-filter:bg-background/75",
         className
       )}
     >
@@ -310,7 +310,7 @@ export function FloatingNotice({ message }: { message: string | null }) {
   return (
     <div
       className={cn(
-        "pointer-events-none fixed right-4 bottom-4 z-[60] transition-all duration-200",
+        "pointer-events-none fixed right-4 bottom-4 z-60 transition-all duration-200",
         message ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
       )}
       aria-live="polite"
