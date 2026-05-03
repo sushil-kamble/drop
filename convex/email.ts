@@ -1,6 +1,7 @@
 const RESEND_EMAILS_API_URL = "https://api.resend.com/emails"
+const DEFAULT_RESEND_FROM_EMAIL = "Drop <onboarding@resend.dev>"
 
-function requiredEnv(name: "RESEND_API_KEY" | "RESEND_FROM_EMAIL") {
+function requiredEnv(name: "RESEND_API_KEY") {
   const value = process.env[name]
   if (!value) {
     throw new Error(`${name} is not set`)
@@ -25,7 +26,7 @@ export async function sendPasswordResetEmail({
   resetUrl: string
 }) {
   const apiKey = requiredEnv("RESEND_API_KEY")
-  const from = requiredEnv("RESEND_FROM_EMAIL")
+  const from = process.env.RESEND_FROM_EMAIL || DEFAULT_RESEND_FROM_EMAIL
   const escapedResetUrl = escapeHtml(resetUrl)
 
   const response = await fetch(RESEND_EMAILS_API_URL, {

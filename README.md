@@ -18,13 +18,14 @@ The Convex dev process uses the deployment configured in [`.env.local`](./.env.l
 ## Password reset emails
 
 Password reset emails are sent through Resend from the Better Auth server
-configuration. Set these Convex environment variables before using the reset
-flow:
+configuration. Set this Convex environment variable before using the reset flow:
 
 ```bash
 npx convex env set RESEND_API_KEY re_your_key
-npx convex env set RESEND_FROM_EMAIL "Drop <no-reply@your-domain.com>"
 ```
+
+By default, emails are sent from Resend's default sender. Set `RESEND_FROM_EMAIL`
+only if you want to use a verified custom sender.
 
 The reset links use `SITE_URL`, so keep that value pointed at the current app
 origin for local development and production.
