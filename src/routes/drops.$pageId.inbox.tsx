@@ -28,19 +28,24 @@ function PageInbox() {
   const markVisited = useMutation(api.builders.recordPageInboxVisit)
   const [selectedId, setSelectedId] = React.useState<string | null>(null)
   const [mobileShowDetail, setMobileShowDetail] = React.useState(false)
+  const visitedPageIdRef = React.useRef<string | null>(null)
   const shareUrl = data ? buildShareUrl(siteUrl(), data.page.slug) : ""
   const selected = data
     ? data.submissions.find((submission) => submission._id === selectedId) ||
       data.submissions[0]
     : null
 
+  const loadedPageId = data?.page._id ?? null
   React.useEffect(() => {
-    if (!data) {
+    if (!loadedPageId) {
       return
     }
-
-    void markVisited({ pageId: data.page._id } as any)
-  }, [data, markVisited])
+    if (visitedPageIdRef.current === loadedPageId) {
+      return
+    }
+    visitedPageIdRef.current = loadedPageId
+    void markVisited({ pageId: loadedPageId } as any)
+  }, [loadedPageId, markVisited])
 
   React.useEffect(() => {
     if (!data) {
