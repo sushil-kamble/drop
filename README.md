@@ -1,21 +1,30 @@
-# TanStack Start + shadcn/ui
+# Drop
 
-This is a template for a new TanStack Start project with React, TypeScript, and shadcn/ui.
+## Local development
 
-## Adding components
-
-To add components to your app, run the following command:
+Run both the Convex dev process and the TanStack client together:
 
 ```bash
-npx shadcn@latest add button
+pnpm dev
 ```
 
-This will place the ui components in the `components` directory.
+This starts:
 
-## Using components
+- `pnpm dev:server` -> `convex dev`
+- `pnpm dev:client` -> `vite dev --port 3000`
 
-To use the components in your app, import them as follows:
+The Convex dev process uses the deployment configured in [`.env.local`](./.env.local), which is currently `dev:giddy-salmon-79`.
 
-```tsx
-import { Button } from "@/components/ui/button";
+## Password reset emails
+
+Password reset emails are sent through Resend from the Better Auth server
+configuration. Set these Convex environment variables before using the reset
+flow:
+
+```bash
+npx convex env set RESEND_API_KEY re_your_key
+npx convex env set RESEND_FROM_EMAIL "Drop <no-reply@your-domain.com>"
 ```
+
+The reset links use `SITE_URL`, so keep that value pointed at the current app
+origin for local development and production.

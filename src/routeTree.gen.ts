@@ -8,59 +8,384 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root"
-import { Route as IndexRouteImport } from "./routes/index"
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as StartRouteImport } from './routes/start'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as InboxRouteImport } from './routes/inbox'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DropsRouteImport } from './routes/drops'
+import { Route as SlugRouteImport } from './routes/$slug'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as DropsIndexRouteImport } from './routes/drops.index'
+import { Route as DropsNewRouteImport } from './routes/drops.new'
+import { Route as ApiDropsRouteImport } from './routes/api/drops'
+import { Route as DropsPageIdSettingsRouteImport } from './routes/drops.$pageId.settings'
+import { Route as DropsPageIdInboxRouteImport } from './routes/drops.$pageId.inbox'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartRoute = StartRouteImport.update({
+  id: '/start',
+  path: '/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DropsRoute = DropsRouteImport.update({
+  id: '/drops',
+  path: '/drops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DropsIndexRoute = DropsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DropsRoute,
+} as any)
+const DropsNewRoute = DropsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => DropsRoute,
+} as any)
+const ApiDropsRoute = ApiDropsRouteImport.update({
+  id: '/api/drops',
+  path: '/api/drops',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DropsPageIdSettingsRoute = DropsPageIdSettingsRouteImport.update({
+  id: '/$pageId/settings',
+  path: '/$pageId/settings',
+  getParentRoute: () => DropsRoute,
+} as any)
+const DropsPageIdInboxRoute = DropsPageIdInboxRouteImport.update({
+  id: '/$pageId/inbox',
+  path: '/$pageId/inbox',
+  getParentRoute: () => DropsRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute
+  '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
+  '/drops': typeof DropsRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/inbox': typeof InboxRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRoute
+  '/start': typeof StartRoute
+  '/terms': typeof TermsRoute
+  '/api/drops': typeof ApiDropsRoute
+  '/drops/new': typeof DropsNewRoute
+  '/drops/': typeof DropsIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/drops/$pageId/inbox': typeof DropsPageIdInboxRoute
+  '/drops/$pageId/settings': typeof DropsPageIdSettingsRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute
+  '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/inbox': typeof InboxRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRoute
+  '/start': typeof StartRoute
+  '/terms': typeof TermsRoute
+  '/api/drops': typeof ApiDropsRoute
+  '/drops/new': typeof DropsNewRoute
+  '/drops': typeof DropsIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/drops/$pageId/inbox': typeof DropsPageIdInboxRoute
+  '/drops/$pageId/settings': typeof DropsPageIdSettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  "/": typeof IndexRoute
+  '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
+  '/drops': typeof DropsRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/inbox': typeof InboxRoute
+  '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRoute
+  '/start': typeof StartRoute
+  '/terms': typeof TermsRoute
+  '/api/drops': typeof ApiDropsRoute
+  '/drops/new': typeof DropsNewRoute
+  '/drops/': typeof DropsIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/drops/$pageId/inbox': typeof DropsPageIdInboxRoute
+  '/drops/$pageId/settings': typeof DropsPageIdSettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/"
+  fullPaths:
+    | '/'
+    | '/$slug'
+    | '/drops'
+    | '/forgot-password'
+    | '/inbox'
+    | '/login'
+    | '/reset-password'
+    | '/settings'
+    | '/start'
+    | '/terms'
+    | '/api/drops'
+    | '/drops/new'
+    | '/drops/'
+    | '/api/auth/$'
+    | '/drops/$pageId/inbox'
+    | '/drops/$pageId/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: "/"
-  id: "__root__" | "/"
+  to:
+    | '/'
+    | '/$slug'
+    | '/forgot-password'
+    | '/inbox'
+    | '/login'
+    | '/reset-password'
+    | '/settings'
+    | '/start'
+    | '/terms'
+    | '/api/drops'
+    | '/drops/new'
+    | '/drops'
+    | '/api/auth/$'
+    | '/drops/$pageId/inbox'
+    | '/drops/$pageId/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/$slug'
+    | '/drops'
+    | '/forgot-password'
+    | '/inbox'
+    | '/login'
+    | '/reset-password'
+    | '/settings'
+    | '/start'
+    | '/terms'
+    | '/api/drops'
+    | '/drops/new'
+    | '/drops/'
+    | '/api/auth/$'
+    | '/drops/$pageId/inbox'
+    | '/drops/$pageId/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SlugRoute: typeof SlugRoute
+  DropsRoute: typeof DropsRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  InboxRoute: typeof InboxRoute
+  LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SettingsRoute: typeof SettingsRoute
+  StartRoute: typeof StartRoute
+  TermsRoute: typeof TermsRoute
+  ApiDropsRoute: typeof ApiDropsRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/"
-      path: "/"
-      fullPath: "/"
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start': {
+      id: '/start'
+      path: '/start'
+      fullPath: '/start'
+      preLoaderRoute: typeof StartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drops': {
+      id: '/drops'
+      path: '/drops'
+      fullPath: '/drops'
+      preLoaderRoute: typeof DropsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drops/': {
+      id: '/drops/'
+      path: '/'
+      fullPath: '/drops/'
+      preLoaderRoute: typeof DropsIndexRouteImport
+      parentRoute: typeof DropsRoute
+    }
+    '/drops/new': {
+      id: '/drops/new'
+      path: '/new'
+      fullPath: '/drops/new'
+      preLoaderRoute: typeof DropsNewRouteImport
+      parentRoute: typeof DropsRoute
+    }
+    '/api/drops': {
+      id: '/api/drops'
+      path: '/api/drops'
+      fullPath: '/api/drops'
+      preLoaderRoute: typeof ApiDropsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/drops/$pageId/settings': {
+      id: '/drops/$pageId/settings'
+      path: '/$pageId/settings'
+      fullPath: '/drops/$pageId/settings'
+      preLoaderRoute: typeof DropsPageIdSettingsRouteImport
+      parentRoute: typeof DropsRoute
+    }
+    '/drops/$pageId/inbox': {
+      id: '/drops/$pageId/inbox'
+      path: '/$pageId/inbox'
+      fullPath: '/drops/$pageId/inbox'
+      preLoaderRoute: typeof DropsPageIdInboxRouteImport
+      parentRoute: typeof DropsRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface DropsRouteChildren {
+  DropsNewRoute: typeof DropsNewRoute
+  DropsIndexRoute: typeof DropsIndexRoute
+  DropsPageIdInboxRoute: typeof DropsPageIdInboxRoute
+  DropsPageIdSettingsRoute: typeof DropsPageIdSettingsRoute
+}
+
+const DropsRouteChildren: DropsRouteChildren = {
+  DropsNewRoute: DropsNewRoute,
+  DropsIndexRoute: DropsIndexRoute,
+  DropsPageIdInboxRoute: DropsPageIdInboxRoute,
+  DropsPageIdSettingsRoute: DropsPageIdSettingsRoute,
+}
+
+const DropsRouteWithChildren = DropsRoute._addFileChildren(DropsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SlugRoute: SlugRoute,
+  DropsRoute: DropsRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  InboxRoute: InboxRoute,
+  LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SettingsRoute: SettingsRoute,
+  StartRoute: StartRoute,
+  TermsRoute: TermsRoute,
+  ApiDropsRoute: ApiDropsRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from "./router.tsx"
-import type { createStart } from "@tanstack/react-start"
-declare module "@tanstack/react-start" {
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
